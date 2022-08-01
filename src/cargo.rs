@@ -71,6 +71,17 @@ pub fn build_example(name: &str) -> Result<PathBuf> {
     )
 }
 
+pub fn build_package(name: &str) -> Result<PathBuf> {
+    parse_output(
+        cargo_build(&features::find())
+            .arg("-p")
+            .arg(name)
+            .stderr(Stdio::inherit())
+            .output()
+            .map_err(Error::Cargo)?,
+    )
+}
+
 pub fn parse_output(result: Output) -> Result<PathBuf> {
     let mut artifact = None;
     for message in cargo_metadata::parse_messages(result.stdout.as_slice()) {

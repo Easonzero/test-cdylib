@@ -87,6 +87,11 @@ mod manifest;
 mod run;
 mod rustflags;
 
+/// Builds the given package as a cdylib and returns the path to the compiled object.
+pub fn build_package(name: &str) -> PathBuf {
+    cargo::build_package(name).unwrap()
+}
+
 /// Builds the given file as a cdylib and returns the path to the compiled object.
 pub fn build_file<P: AsRef<Path>>(path: P) -> PathBuf {
     run::run(path.as_ref()).unwrap()
